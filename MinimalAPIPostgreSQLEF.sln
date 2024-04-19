@@ -5,6 +5,12 @@ VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalAPIPostgreSQLEF", "MinimalAPIPostgreSQLEF\MinimalAPIPostgreSQLEF.csproj", "{96A5CF02-D347-48A0-9F29-21C89E9AF989}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución", "Elementos de la solución", "{E6926ECC-BFAE-4248-87F2-7CFB7DF720E5}"
+	ProjectSection(SolutionItems) = preProject
+		commands.txt = commands.txt
+		REAME.md = REAME.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
