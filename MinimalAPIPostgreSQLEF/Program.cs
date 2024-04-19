@@ -1,9 +1,19 @@
+using Microsoft.EntityFrameworkCore;
+using MinimalAPIPostgreSQLEF.Data;
+using MinimalAPIPostgreSQLEF.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var connectionString = builder.Configuration.GetConnectionString("PostgreSQLConnection");
+builder.Services.AddDbContext<OfficeDBContext>(options =>
+{
+    options.UseNpgsql(connectionString);
+});
 
 var app = builder.Build();
 
@@ -16,29 +26,19 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+app.MapPost("/employees", async (Employee e, OfficeDBContext dbContext) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    dbContext.Employees.Add(e);
+    await dbContext.SaveChangesAsync();
+    return Results.Created($"/employee/{e.Id}", e);
+});
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("/employee/{id:int}", async (int id, OfficeDBContext dbContext) =>
 {
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+    return await dbContext.Employees.FindAsync(id)
+    is Employee e
+    ? Results.Ok(e)
+    : Results.NotFound();
+});
 
 app.Run();
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
