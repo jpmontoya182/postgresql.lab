@@ -1,1 +1,19 @@
-docker run --name postgresql-local -p 5432:5432 -d postgres:latest
+docker pull postgres
+docker run --name postgresql-local -e POSTGRES_PASSWORD=postgresLocalAdminDocker -p 5400:5432 -d postgres 
+
+# disable local repo to install tool  or libraries
+dotnet nuget list source
+dotnet nuget disable source "name of source"
+dotnet nuget enable source "name of source"
+
+# update ef tool globally
+dotnet tool install --global dotnet-ef
+
+# create first migration 
+dotnet ef migrations add firstmigration
+
+# apply scripts to db
+dotnet ef database update firstmigration
+
+# delete db 
+dotnet ef database drop

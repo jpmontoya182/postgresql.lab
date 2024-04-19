@@ -8,7 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución", "Elementos de la solución", "{E6926ECC-BFAE-4248-87F2-7CFB7DF720E5}"
 	ProjectSection(SolutionItems) = preProject
 		commands.txt = commands.txt
-		REAME.md = REAME.md
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global
